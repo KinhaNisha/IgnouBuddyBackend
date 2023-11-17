@@ -1,14 +1,20 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 
-module.exports = (req, res, next) => {
+const auth = (headers) => {
+  if (!headers.authorization) {
+    return null; 
+  }
+
+  const token = headers.authorization.split(' ')[1];
+
   try {
-    const token = req.headers.authorization.split(' ')[1];
-    const decoded = jwt.verify(token, config.secret);
-    req.userData = decoded;
-    next();
+    const decodedToken = jwt.verify(token, config.secret);
+    return decodedToken.userId;
   } catch (error) {
-    return res.status(404).json({ message: 'Authentication failed' });
+    console.error(error);
+    return null; 
   }
 };
 
+module.exports = auth;

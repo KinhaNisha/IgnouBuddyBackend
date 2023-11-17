@@ -11,7 +11,6 @@ router.post('/', async (req, res) => {
   console.log({mobileNo, password})
   // Check if the user exists
   const user = await User.findOne({ mobileNo });
-  // const userenrol = await User.findOne({enrollmentNo})
   if (!user) {
     return res.status(404).json({ message: 'Mobile number not found' });
   }
@@ -23,7 +22,7 @@ router.post('/', async (req, res) => {
   }
 
   // Generate a token for the user
-  const token = jwt.sign({ userId: user._id, email: user.email, enroll: user.enrollmentNo, mobile: user.mobileNo }, config.secret, {
+  const token = jwt.sign({ userId: user._id}, config.secret, {
     expiresIn: '1h',
   });
 console.log(token)
