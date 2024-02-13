@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   username: { type: String, required: true },
   email: String,
-  enrollmentNo: Number,
+  // enrollmentNo: Number,
   mobileNo: Number,
   password: String,
   pdfFiles: [{ type: Schema.Types.ObjectId, ref: 'PDFFile' }],

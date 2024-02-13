@@ -35,7 +35,7 @@ router.post('/:userId/pdf', async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    const pdfFile = new PDFFile({ category, semester, subject, pdfLink });
+    const pdfFile = new PDFFile({ category, semester, subject, pdfFile });
     await pdfFile.save();
 
     user.pdfFiles.push(pdfFile);
