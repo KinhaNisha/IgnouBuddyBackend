@@ -5,7 +5,7 @@ const User = require('../models/User');
 
 router.post('/', async (req, res) => {
   console.log("register route running")
-  const { username, email, enrollmentNo, mobileNo, password } = req.body;
+  const { username, email,/* enrollmentNo,*/ mobileNo, password } = req.body;
   console.log({enrollmentNo})
   console.log({mobileNo})
   // Check if the user already exists
@@ -15,10 +15,10 @@ router.post('/', async (req, res) => {
   }
 
   // Check if the usersenrollment no. exists or not
-  const existingUserEnrollmentNo = await User.findOne({ enrollmentNo });
-  if (existingUserEnrollmentNo) {
-    return res.status(400).json({ message: 'Enrollement number already exists' });
-  }
+  // const existingUserEnrollmentNo = await User.findOne({ enrollmentNo });
+  // if (existingUserEnrollmentNo) {
+  //   return res.status(400).json({ message: 'Enrollement number already exists' });
+  // }
 
   // Check if the mobile no already exists
   const existingMobileNo = await User.findOne({ mobileNo });
@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   // Create a new user
-  const newUser = new User({ username, email, enrollmentNo, mobileNo, password: hashedPassword });
+  const newUser = new User({ username, email,/* enrollmentNo,*/ mobileNo, password: hashedPassword });
   console.log(newUser)
   try {
     await newUser.save();
