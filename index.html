@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IGNOU BUDDY</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        .mt-3 {
+            margin-top: 3rem;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="mt-3">IGNOU BUDDY</h2>
+
+    <!-- Registration Form -->
+    <div id="registrationForm" class="mt-3">
+        <h4>Register</h4>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" required>
+            </div>
+            <!-- <div class="form-group">
+                <label for="enrollmentNo">Enrollment Number</label>
+                <input type="text" class="form-control" id="enrollmentNo" required>
+            </div> -->
+            <div class="form-group">
+                <label for="mobileNo">Mobile Number</label>
+                <input type="text" class="form-control" id="mobileNo" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="registerUser()">Register</button>
+        </form>
+    </div>
+
+    <!-- Login Form -->
+    <br>
+    <h6>if alredy registered. please login!</h6>
+    <div id="loginForm" class="mt-3">
+        <h4>Login</h4>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="loginMobileNo">Mobile Number</label>
+                <input type="number" class="form-control" id="loginMobileNo" required>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" class="form-control" id="loginPassword" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="loginUser()">Login</button>
+        </form>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+    function registerUser() {
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        const enrollmentNo = document.getElementById('enrollmentNo').value;
+        const mobileNo = document.getElementById('mobileNo').value;
+        const password = document.getElementById('password').value;
+
+        // Prepare data to send to the server
+        const data = {
+            username: username,
+            email: email,
+            mobileNo: mobileNo,
+            password: password
+        };
+
+        // Send a POST request to the backend API for user registration
+        fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to register user');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            alert('User registered successfully!');
+            // Optionally, redirect to another page or perform any other action after successful registration
+        })
+        .catch(error => {
+            console.error('Error registering user:', error);
+            alert('Failed to register user. Please try again.');
+        });
+    }
+
+    function loginUser() {
+        const mobileNo = document.getElementById('loginMobileNo').value;
+        const password = document.getElementById('loginPassword').value;
+
+        // Prepare data to send to the server
+        const data = {
+            mobileNo: mobileNo,
+            password: password
+        };
+
+        // Send a POST request to the backend API for user login
+        fetch('/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to login');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            alert('Login successful!');
+            // Optionally, redirect to another page or perform any other action after successful login
+        })
+        .catch(error => {
+            console.error('Error logging in:', error);
+            alert('Failed to login. Please check your credentials and try again.');
+        });
+    }
+</script>
+
+
+</body>
+</html>
